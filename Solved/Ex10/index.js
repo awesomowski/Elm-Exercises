@@ -1,12 +1,15 @@
-"use strict";
+'use strict';
 
-var app = Elm.Ex10.embed(document.getElementById("main"), {
-  name: "Me",
-  email: "me@example.com"
+var app = Elm.Ex10.init({
+  node: document.getElementById('main'),
+  flags: {
+    name: 'Me',
+    email: 'me@example.com'
+  }
 });
 
-app.ports.notifyJs.subscribe(function(word) {
+app.ports.notifyJs.subscribe(function (word) {
   console.log(word);
 });
 
-app.ports.notifiedByJs.send("value");
+app.ports.notifiedByJs.send('value');

@@ -1,5 +1,6 @@
 module Ex9 exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -9,11 +10,11 @@ import Json.Decode as Decode
 
 
 main =
-    Html.program
-        { init = initial
-        , view = view
-        , update = update
+    Browser.element
+        { init = \() -> initial
         , subscriptions = subscriptions
+        , update = update
+        , view = view
         }
 
 
@@ -113,7 +114,7 @@ updateNote form formValue =
                 Id textValue ->
                     let
                         converted =
-                            String.toInt textValue |> Result.withDefault 0
+                            String.toInt textValue |> Maybe.withDefault 0
                     in
                         { value | id = converted }
 
@@ -204,7 +205,7 @@ listNotes notes =
 viewNote note =
     case note of
         TextNote data ->
-            ( toString data.id
+            ( String.fromInt data.id
             , li [ class "list-group-item" ]
                 [ viewId data.id
                 , h3 [] [ text data.header ]
@@ -213,7 +214,7 @@ viewNote note =
             )
 
         ImageNote data ->
-            ( toString data.url
+            ( data.url
             , li [ class "list-group-item" ]
                 [ viewId data.id
                 , img [ src data.url ] []
@@ -223,7 +224,7 @@ viewNote note =
 
 viewId id =
     div [ class "pull-right" ]
-        [ text <| toString id ]
+        [ text <| String.fromInt id ]
 
 
 subscriptions model =

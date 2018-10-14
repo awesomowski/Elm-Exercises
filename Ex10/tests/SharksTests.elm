@@ -18,8 +18,7 @@ import Ex10
 
    Below you will find additional exercises for writing your own UI tests!
    Useful docs:
-   - http://package.elm-lang.org/packages/elm-community/elm-test/latest
-   - http://package.elm-lang.org/packages/eeue56/elm-html-test/latest
+   - https://package.elm-lang.org/packages/elm-explorations/test/latest/
 -}
 
 

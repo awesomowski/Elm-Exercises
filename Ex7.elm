@@ -11,7 +11,7 @@ import Json.Decode exposing (..)
    Primitive values
 
    Run:
-   - elm-repl
+   - elm repl
    - import Ex7 exposing (..)
 
    Usually JSON comes from the server as a string and needs to be parsed or decoded to JS (or Elm values in our case).

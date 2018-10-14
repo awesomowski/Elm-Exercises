@@ -1,12 +1,12 @@
 module Ex3_1 exposing (..)
 
+import Browser
 import Html exposing (Html, div, p, text, button)
 import Html.Events exposing (onClick)
 
 
 {-
-
-   1. Run elm-reactor and select this file
+   1. Run `elm reactor` and navigate to this file.
 
    Docs:
        - https://guide.elm-lang.org/architecture/
@@ -18,25 +18,24 @@ import Html.Events exposing (onClick)
    - Update - a way to update your state
    - View   - a way to view your state as HTML
 
-   The `main` function glues all pieces together using `Html.beginnerProgram` (or other types of programs - we will see them later).
+   The `main` function glues all pieces together using `Browser.sandbox` (or other types of programs - we will see them later).
 
-   The goal of this simple Hello World program is to display message in a paragraph, when user clicks the button.
+   The goal of this simple Hello World program is to display a message in a paragraph, when user clicks the button.
 
    HINT: See what element are being imported and exposed - read about them in docs regarding `Html` package.
 
-   TODO: Display message in the view function according to requirements above.
+   TODO: Display message in the view function according to the requirements above.
 
    BONUS: Read about `style` function in docs - try to play with it and make hello world example look better!
 -}
 
 
 main =
-    Html.beginnerProgram
-        { model = initModel
-        , view = view
+    Browser.sandbox
+        { init = initModel
         , update = update
+        , view = view
         }
-
 
 
 -- The model will be a message - string.

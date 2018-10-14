@@ -1,5 +1,6 @@
 module Ex3.Ex3_2 exposing (..)
 
+import Browser
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
@@ -24,8 +25,8 @@ import Html.Events exposing (onClick)
 
 
 main =
-    Html.beginnerProgram
-        { model = initModel
+    Browser.sandbox
+        { init = initModel
         , view = view
         , update = update
         }
@@ -90,11 +91,11 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ style [ centered, bold ] ]
+    div [ centered, bold ]
         [ button [ onClick Increment ] [ text "+1" ]
         , div
-            [ style [ margin20, getCounterColorStyle model ] ]
-            [ text (toString model.counter) ]
+            [ margin20, getCounterColorStyle model ]
+            [ text (String.fromInt model.counter) ]
         , button [ onClick Decrement ] [ text "-1" ]
         , Html.node "br" [] []
         , button [ onClick Reset ] [ text "Reset" ]
@@ -102,18 +103,18 @@ view model =
 
 
 centered =
-    ( "text-align", "center" )
+    style "text-align" "center"
 
 
 margin20 =
-    ( "margin", "20px" )
+    style "margin" "20px"
 
 
 bold =
-    ( "font-weight", "bold" )
+    style "font-weight" "bold"
 
 
-getCounterColorStyle : Model -> ( String, String )
+getCounterColorStyle : Model -> Html.Attribute msg
 getCounterColorStyle model =
     let
         color =
@@ -124,4 +125,4 @@ getCounterColorStyle model =
             else
                 "green"
     in
-        ( "color", color )
+        style "color" color

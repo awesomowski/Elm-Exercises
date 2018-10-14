@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -14,7 +15,7 @@ import Html.Events exposing (..)
    2. Run REPL and create a test type, e.g.
            type Msg = Test String
            Evaluate 'Test' - what is it?
-       Function composition operator (<<) lets you glue together functions http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Basics#<<
+       Function composition operator (<<) lets you glue together functions http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<
        Union type constructors are functions!
    3. Extend FormChange message to handle rest of fields just like in previous exercise
       Make sure you fully understand annotations, e.g. (b -> c) -> (a -> b) -> a -> c
@@ -23,8 +24,8 @@ import Html.Events exposing (..)
 
 
 main =
-    Html.beginnerProgram
-        { model = initial
+    Browser.sandbox
+        { init = initial
         , view = view
         , update = update
         }
@@ -189,7 +190,7 @@ viewNote note =
 
 viewId id =
     div [ class "pull-right" ]
-        [ text <| toString id ]
+        [ text <| String.fromInt id ]
 
 
 insertCss =

@@ -2,6 +2,7 @@ module Ex6 exposing (..)
 
 import Array exposing (Array)
 import Random
+import Browser
 import Html exposing (Html, div, h1, p, blockquote, text, button)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
@@ -21,15 +22,15 @@ type alias Model =
     }
 
 
-model : Model
-model =
+initialModel : Model
+initialModel =
     { quote = Nothing
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( model, callForRandomQuote secretQuotes )
+    ( initialModel, callForRandomQuote secretQuotes )
 
 
 
@@ -92,22 +93,21 @@ viewQuote model =
                     Maybe.withDefault "" <| Maybe.map .author model.quote
             in
                 div []
-                    [ blockquote [ blockquoteStyles ] [ text quoteText ]
+                    [ blockquote blockquoteStyles [ text quoteText ]
                     , div
-                        [ style [ ( "margin", "1em 4.5em" ) ] ]
+                        [ style "margin" "1em 4.5em" ]
                         [ text quoteAuthor ]
                     ]
 
         Nothing ->
-            p [ style [ ( "margin", "1em 3em" ) ] ] [ text "Loading..." ]
+            p [ style "margin" "1em 3em" ] [ text "Loading..." ]
 
 
 viewButton : Html Msg
 viewButton =
     button
-        [ onClick AskForQuote
-        , buttonStyles
-        ]
+        ([ onClick AskForQuote
+        ] ++ buttonStyles)
         [ text "Inspire me!" ]
 
 
@@ -116,13 +116,13 @@ subscriptions =
     \_ -> Sub.none
 
 
-main : Program Never Model Msg
+main : Program () Model Msg
 main =
-    Html.program
-        { init = init
-        , view = view
-        , update = update
+    Browser.element
+        { init = \() -> init
         , subscriptions = subscriptions
+        , update = update
+        , view = view
         }
 
 
@@ -153,23 +153,21 @@ secretQuotes =
         ]
 
 
-buttonStyles : Html.Attribute msg
+buttonStyles : List (Html.Attribute msg)
 buttonStyles =
-    style
-        [ ( "margin", "0.5em 1em" )
-        , ( "padding", "0.25em 1em" )
-        , ( "background", "#cfcfcf" )
-        , ( "border", "1px solid #6b6b6b" )
-        , ( "font-family", "serif" )
-        , ( "font-weight", "bold" )
-        ]
+    [ style "margin" "0.5em 1em"
+    , style "padding" "0.25em 1em"
+    , style "background" "#cfcfcf"
+    , style "border" "1px solid #6b6b6b"
+    , style "font-family" "serif"
+    , style "font-weight" "bold"
+    ]
 
 
-blockquoteStyles : Html.Attribute msg
+blockquoteStyles : List (Html.Attribute msg)
 blockquoteStyles =
-    style
-        [ ( "border-left", "0.5em solid #cfcfcf" )
-        , ( "padding", "0.5em" )
-        , ( "font-family", "serif" )
-        , ( "font-style", "italic" )
-        ]
+    [ style "border-left" "0.5em solid #cfcfcf"
+    , style "padding" "0.5em"
+    , style "font-family" "serif"
+    , style "font-style" "italic"
+    ]

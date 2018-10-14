@@ -1,3 +1,5 @@
-"use strict";
+'use strict';
 
-var app = Elm.Ex10.embed(document.getElementById("main"));
+var app = Elm.Ex10.init({
+    node: document.getElementById('main')
+});

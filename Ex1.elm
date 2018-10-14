@@ -4,7 +4,7 @@ module Ex1 exposing (..)
    From JS cheatsheet: http://elm-lang.org/docs/from-javascript
 
    1. Run the elm REPL in the current folder:
-   elm-repl
+   elm repl
 
    2. Then import this module:
    import Ex1
@@ -27,9 +27,9 @@ module Ex1 exposing (..)
    Important! In order to make multiline expressions in REPL you need to use '\',
    e.g.
    let \ ('enter')
-     x = 3 \ ('enter')
+     x3 = 3 \ ('enter')
    in \ ('enter')
-     x + 4 \ ('enter')
+     x3 + 4 \ ('enter')
 
    Elm is also whitespace-sensitive!
    - when defining functions, records and other multiline expressions
@@ -198,8 +198,8 @@ getLuckyNumber _ =
 -}
 
 
-add x y =
-    x + y
+add x1 y1 =
+    x1 + y1
 
 
 
@@ -239,13 +239,13 @@ n =
 
 calculation =
     let
-        x =
+        x2 =
             3 * 2
 
-        y =
+        y2 =
             -4 / 2
     in
-        increment (x + y)
+        increment (x2 + y2)
 
 
 
@@ -356,7 +356,7 @@ names =
 
 
 inc =
-    \x -> x + 1
+    \i -> i + 1
 
 
 
@@ -383,8 +383,8 @@ empty =
 -}
 
 
-isAdult x =
-    if x >= 18 then
+isAdult age =
+    if age >= 18 then
         True
     else
         False
@@ -396,8 +396,8 @@ isAdult x =
 -}
 
 
-isAdult2 x =
-    case x >= 18 of
+isAdult2 age =
+    case age >= 18 of
         True ->
             "Adult"
 
@@ -408,10 +408,10 @@ isAdult2 x =
 
 {-
    26.
-       Write a function which accepts Maybe
-       If there is a value, return string representation of that value (use `toString` built in function)
+       Write a function which accepts Maybe Int
+       If there is a value, return string representation of that value (use `String.fromInt` function)
        If there is nothing, return string "Empty"
-       Test it for values: (Just 3), (Just True), Nothing, (Just 99.9)
+       Test it for values: (Just 3), (Just -5), Nothing
        Note: you can write this function below, and whenever you save the file - it will be instantly available in repl to be run.
        How cool is that?!
 -}

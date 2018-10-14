@@ -1,5 +1,6 @@
-module Ex10 exposing (..)
+port module Ex10 exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -7,54 +8,34 @@ import Html.Keyed as Keyed
 import Http
 import Json.Decode as Decode
 
+port notifyJs : String -> Cmd msg
 
-{-
-   1. Run elm-package install
-   2. Run elm-make Ex10.elm --output elm.js
-   This will generate js file that is referenced by index.html
-   Go ahead and see your compiled application in action.
-
-   Notice css hacks are gone and regualr index.html file format is used.
-
-   You can communicate with other js code through mechanism of ports
-   It's also possible to send values at the start of program through flags
-
-   More information: https://guide.elm-lang.org/interop/javascript.html
-
-   Use flags to pass in from index.js user name and email to your application at start
-   Use port commands to send anything to index.js and console.log it
-   Use port subscriptions to populate new text note editor
-
--}
-
+port notifiedByJs : (String -> msg) -> Sub msg
 
 main =
-    Html.program
+    Browser.element
         { init = initial
-        , view = view
-        , update = update
         , subscriptions = subscriptions
+        , update = update
+        , view = view
         }
 
 
-initial =
-    ( Model defaultUser Nothing, Cmd.none )
+initial: Flags -> (Model, Cmd msg)
+initial flags =
+    ( Model (User flags.name flags.email defaultNotes) Nothing, Cmd.none )
 
 
-defaultUser =
-    User "Dan"
-        "elm-workshop@mostlybugless.com"
+defaultNotes =
         [ TextNote { id = 1, header = "Header", text = "And some content for the sake of taking up space. And even more lines, and stuff and like you know, something meaningful." }
         , ImageNote { id = 2, url = "https://media2.giphy.com/media/12Jbd9dZVochsQ/giphy.gif" }
         , TextNote { id = 3, header = "I like trains!", text = "Choo choo!" }
         ]
 
-
 type alias Flags =
     { email : String
     , name : String
     }
-
 
 type alias Model =
     { user : User
@@ -124,13 +105,13 @@ update msg model =
             ( model, getSharks )
 
         NewImage (Ok newUrl) ->
-            ( { model | user = addImage model.user newUrl }, Cmd.none )
+            ( { model | user = addImage model.user newUrl }, notifyJs newUrl )
 
         NewImage (Err _) ->
             ( model, Cmd.none )
 
         NotifiedByJs value ->
-            ( model, Cmd.none )
+            ( model, notifyJs value)
 
 
 updateNote form formValue =
@@ -143,9 +124,9 @@ updateNote form formValue =
                 Id textValue ->
                     let
                         converted =
-                            String.toInt textValue |> Result.withDefault 0
+                            String.toInt textValue |> Maybe.withDefault 0
                     in
-                        { value | id = converted }
+                    { value | id = converted }
 
                 Text textValue ->
                     { value | text = textValue }
@@ -167,7 +148,7 @@ getSharks =
         url =
             "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=sharks"
     in
-        Http.send NewImage (Http.get url decodeUrl)
+    Http.send NewImage (Http.get url decodeUrl)
 
 
 addImage user url =
@@ -232,7 +213,7 @@ listNotes notes =
 viewNote note =
     case note of
         TextNote data ->
-            ( toString data.id
+            ( String.fromInt data.id
             , li [ class "list-group-item" ]
                 [ viewId data.id
                 , h3 [] [ text data.header ]
@@ -241,7 +222,7 @@ viewNote note =
             )
 
         ImageNote data ->
-            ( toString data.url
+            ( data.url
             , li [ class "list-group-item" ]
                 [ viewId data.id
                 , img [ src data.url ] []
@@ -251,8 +232,9 @@ viewNote note =
 
 viewId id =
     div [ class "pull-right" ]
-        [ text <| toString id ]
+        [ text <| String.fromInt id ]
 
 
 subscriptions model =
-    Sub.none
+    notifiedByJs NotifiedByJs
+

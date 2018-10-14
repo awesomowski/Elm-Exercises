@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -9,13 +10,13 @@ import Html.Attributes exposing (..)
    2. Uncomment notes data in profile and implement data model
    3. Display list of notes
      - hint: you can use bootstrap classes (suggested: list-group, list-group-item, pull-right) or create custom ones in styles.css
-     - use Html package documentation: http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html#ul
+     - use Html package documentation: https://package.elm-lang.org/packages/elm-lang/html/latest/Html#ul
 -}
 
 
 main =
-    Html.beginnerProgram
-        { model = initial
+    Browser.sandbox
+        { init = initial
         , view = view
         , update = update
         }

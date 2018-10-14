@@ -1,13 +1,14 @@
 module Main exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
 main =
-    Html.beginnerProgram
-        { model = initial
+    Browser.sandbox
+        { init = initial
         , view = view
         , update = update
         }
@@ -100,7 +101,7 @@ viewEditor noteForm =
             Just data ->
                 div []
                     [ Html.form []
-                        [ input [ class "form-input", type_ "text", placeholder "id", value <| toString data.id ] []
+                        [ input [ class "form-input", type_ "text", placeholder "id", value <| String.fromInt data.id ] []
                         , input [ class "form-input", type_ "text", placeholder "header", value data.header ] []
                         , input [ class "form-input", type_ "text", placeholder "text", value data.text ] []
                         , div [ class "btn btn-default" ] [ text "Add" ]
@@ -131,7 +132,7 @@ viewNote note =
 
 viewId id =
     div [ class "pull-right" ]
-        [ text <| toString id ]
+        [ text <| String.fromInt id ]
 
 
 insertCss =

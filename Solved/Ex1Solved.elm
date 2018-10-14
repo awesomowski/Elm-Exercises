@@ -1,13 +1,13 @@
-module Ex1 exposing (..)
+module Ex1Solved exposing (..)
 
 {- Docs: http://package.elm-lang.org/packages/elm-lang/core/latest
    From JS cheatsheet: http://elm-lang.org/docs/from-javascript
 
    1. Run the elm REPL in the current folder:
-   elm-repl
+   elm repl
 
    2. Then import this module:
-   import Ex1
+   import Ex1Solved
 
    -- Part 1
    -- Data Types
@@ -17,10 +17,10 @@ module Ex1 exposing (..)
 
    4. What is the problem?
       We need fully qualified name:
-   Ex1.x
+   Ex1Solved.x
 
    5. This is too much typing, let's import everything:
-   import Ex1 exposing (..)
+   import Ex1Solved exposing (..)
 
    You will find further instructions below as inline comments.
 -}
@@ -186,8 +186,8 @@ getLuckyNumber _ =
 -}
 
 
-add x y =
-    x + y
+add x1 y1 =
+    x1 + y1
 
 
 
@@ -227,13 +227,13 @@ n =
 
 calculation =
     let
-        x =
+        x2 =
             3 * 2
 
-        y =
+        y2 =
             -4 / 2
     in
-        increment (x + y)
+        increment (x2 + y2)
 
 
 
@@ -350,11 +350,11 @@ chars =
 
 
 inc =
-    \x -> x + 1
+    \i -> i + 1
 
 
 mul =
-    \x -> x * 2
+    \m -> m * 2
 
 
 
@@ -380,8 +380,8 @@ empty =
 -}
 
 
-isAdult x =
-    if x >= 18 then
+isAdult age =
+    if age >= 18 then
         True
     else
         False
@@ -393,8 +393,8 @@ isAdult x =
 -}
 
 
-isAdult2 x =
-    case x >= 18 of
+isAdult2 age =
+    case age >= 18 of
         True ->
             "Adult"
 
@@ -405,20 +405,20 @@ isAdult2 x =
 
 {-
    26.
-       Write a function which accepts Maybe
-       If there is a value, return string representation of that value (use `toString` built in function)
+       Write a function which accepts Maybe Int
+       If there is a value, return string representation of that value (use `String.fromInt` function)
        If there is nothing, return string "Empty"
-       Test it for values: (Just 3), (Just True), Nothing, (Just 99.9)
+       Test it for values: (Just 3), (Just -5), Nothing
        Note: you can write this function below, and whenever you save the file - it will be instantly available in repl to be run.
        How cool is that?!
 -}
 
 
-maybe2str : Maybe a -> String
-maybe2str x =
-    case x of
+maybe2str : Maybe Int -> String
+maybe2str str =
+    case str of
         Just v ->
-            toString v
+            String.fromInt v
 
         Nothing ->
             "Empty"
@@ -436,10 +436,10 @@ maybe2str x =
 
 
 transformMeMaybe : (a -> Int) -> Maybe a -> Int
-transformMeMaybe f x =
-    case x of
+transformMeMaybe fn o =
+    case o of
         Just v ->
-            f v
+            fn v
 
         Nothing ->
             0

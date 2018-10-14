@@ -7,7 +7,7 @@ import Json.Encode as Encode
 -- Docs: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode
 {-
    Run:
-   - elm-repl
+   - elm repl
    - import Ex8 exposing (..)
 
    Part 1
@@ -47,9 +47,8 @@ n =
 
 
 numbersList =
-    [ 1, 2, 3 ]
-        |> List.map Encode.int
-        |> Encode.list
+    Encode.list Encode.int [ 1, 2, 3 ]
+        
 
 
 

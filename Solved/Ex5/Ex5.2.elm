@@ -1,13 +1,14 @@
 module Main exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
 main =
-    Html.beginnerProgram
-        { model = initial
+    Browser.sandbox
+        { init = initial
         , view = view
         , update = update
         }
@@ -97,7 +98,7 @@ updateEditor form msg =
                 UpdateId textValue ->
                     let
                         converted =
-                            String.toInt textValue |> Result.withDefault 0
+                            String.toInt textValue |> Maybe.withDefault 0
                     in
                     { value | id = converted }
 
@@ -189,7 +190,7 @@ viewNote note =
 
 viewId id =
     div [ class "pull-right" ]
-        [ text <| toString id ]
+        [ text <| String.fromInt id ]
 
 
 insertCss =

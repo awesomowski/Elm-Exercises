@@ -1,23 +1,20 @@
-module Ex2 exposing (..)
+module Ex2Solved exposing (..)
 
 {-
    1. Run `elm-test` command in `Ex2` folder
       If not installed run `npm install -g elm-test`
-   2. Go to `Ex2/tests/Tests.elm`
+   2. Go to `tests/Tests.elm`
    3. Review the tests - they will serve you as a guideline for implementation and successfull finishing of exercises you will find below.
    4. In `Tests.elm` is also described alternative way to run tests in your browser.
 
    Hint: you can run `elm-test --watch` to launch tests automatically, whenever any elm file changes.
-   Hint: notice the <| operator, it's defined here: http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|
 
-   0.
+   1.
      Maybe is actually defined as:
        type Maybe a
          = Just a
          | Nothing
      "type" (in contrast to type alias) allows us to declare union types
-
-    Our application has following Selection union type that defines possible selection modes:
 -}
 
 
@@ -25,29 +22,29 @@ type Selection
     = Empty
     | Single String
     | Multiple (List String)
+    | Advanced String CustomItemData
 
 
 
-{-
-   Union types hold only one of possible values at the time.
-   You can split your logic based on runtime value through pattern matching with 'case' operator
-
-    something = Just "value"
-    case maybe of
-        Nothing ->
-            "Empty"
-
-        Just value ->
-            "Value: " ++ value
-
--}
-{- 1. Fix failing tests
+{- 1.
+   - <| operator is defined here: http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|
    - what will be the type annotation of selectionToValues?
 -}
 
 
 selectionToValues selection =
-    []
+    case selection of
+        Empty ->
+            []
+
+        Single value ->
+            [ value ]
+
+        Multiple values ->
+            values
+
+        Advanced value data ->
+            [ value ]
 
 
 
@@ -59,13 +56,24 @@ selectionToValues selection =
 
 
 extendSelection value selection =
-    Empty
+    case selection of
+        Empty ->
+            Single value
+
+        Single original ->
+            Multiple [ value, original ]
+
+        Multiple originalValues ->
+            Multiple <| value :: originalValues
+
+        Advanced v data ->
+            selection
 
 
 
 {-
    3. It turns out we need additional logic for processing of custom items!
-      Add new possible value to Selection type that holds String and CustomItemData, name it Advanced
+      Add new possible value to Selection type that holds String and CustomItemData
       - talk with your compiler to get every regression fixed
       - assume Advanced selection cannot be extended and returns original selection
 -}
@@ -87,7 +95,15 @@ type alias CustomItemData =
 
 toSelection : List String -> Selection
 toSelection values =
-    Empty
+    case values of
+        [] ->
+            Empty
+
+        [ v ] ->
+            Single v
+
+        vs ->
+            Multiple vs
 
 
 
@@ -107,4 +123,7 @@ toSelection values =
 
 filteredToUppercaseString : Selection -> List String
 filteredToUppercaseString selection =
-    []
+    selection
+        |> selectionToValues
+        |> List.map String.toUpper
+        |> List.filter (\v -> v /= "BANANAS")

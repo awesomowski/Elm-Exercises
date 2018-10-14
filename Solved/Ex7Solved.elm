@@ -1,4 +1,4 @@
-module Ex7 exposing (..)
+module Ex7Solved exposing (..)
 
 import Json.Decode as Decode
 
@@ -11,8 +11,8 @@ import Json.Decode as Decode
    Primitive values
 
    Run:
-   - elm-repl
-   - import Ex7 exposing (..)
+   - elm repl
+   - import Ex7Solved exposing (..)
 
    Usually JSON comes from the server as a string and needs to be parsed or decoded to JS (or Elm values in our case).
    We will use decodeString function:

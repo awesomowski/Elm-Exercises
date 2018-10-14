@@ -1,4 +1,4 @@
-module Ex8 exposing (..)
+module Ex8Solved exposing (..)
 
 import Array
 import Json.Encode as Encode
@@ -7,8 +7,8 @@ import Json.Encode as Encode
 -- Docs: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode
 {-
    Run:
-   - elm-repl
-   - import Ex8 exposing (..)
+   - elm repl
+   - import Ex8Solved exposing (..)
 
    Part 1
    Primitive values
@@ -47,9 +47,7 @@ n =
 
 
 numbersList =
-    [ 1, 2, 3 ]
-        |> List.map Encode.int
-        |> Encode.list
+    Encode.list Encode.int [ 1, 2, 3 ]
 
 
 
@@ -113,10 +111,10 @@ oStr =
 nested =
     Encode.object
         [ ( "data"
-          , Encode.list
-                [ Encode.object [ ( "x", Encode.int 1 ), ( "y", Encode.int 1 ) ]
-                , Encode.object [ ( "x", Encode.int 2 ), ( "y", Encode.int 2 ) ]
-                , Encode.object [ ( "x", Encode.int 3 ), ( "y", Encode.int 3 ) ]
+          , Encode.list Encode.object 
+                [ [ ( "x", Encode.int 1 ), ( "y", Encode.int 1 ) ]
+                , [ ( "x", Encode.int 2 ), ( "y", Encode.int 2 ) ]
+                , [ ( "x", Encode.int 3 ), ( "y", Encode.int 3 ) ]
                 ]
           )
         ]

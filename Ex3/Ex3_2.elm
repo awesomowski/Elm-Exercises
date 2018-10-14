@@ -1,5 +1,6 @@
 module Ex3_2 exposing (..)
 
+import Browser
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
@@ -24,8 +25,8 @@ import Html.Events exposing (onClick)
 
 
 main =
-    Html.beginnerProgram
-        { model = initModel
+    Browser.sandbox
+        { init = initModel
         , view = view
         , update = update
         }
